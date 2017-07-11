@@ -18,34 +18,120 @@
 <FindBugsFilter>
     <Match>
         <Package name="org.ballerinalang.model.values"/>
+        <Not>
+            <Bug category="SECURITY"/>
+        </Not>
     </Match>
     <Match>
         <Package name="org.ballerinalang.bre"/>
+        <Not>
+            <Bug category="SECURITY"/>
+        </Not>
     </Match>
     <Match>
         <Package name="org.ballerinalang.model.statements"/>
+        <Not>
+            <Bug category="SECURITY"/>
+        </Not>
     </Match>
     <Match>
         <Package name="org.ballerinalang.core.model.expressions"/>
+        <Not>
+            <Bug category="SECURITY"/>
+        </Not>
     </Match>
     <Match>
         <Package name="org.ballerinalang.core.model.types"/>
+        <Not>
+            <Bug category="SECURITY"/>
+        </Not>
     </Match>
     <Match>
         <Package name="org.ballerinalang.core.model"/>
+        <Not>
+            <Bug category="SECURITY"/>
+        </Not>
     </Match>
     <Match>
         <Package name="org.ballerinalang.core.interpreter"/>
+        <Not>
+            <Bug category="SECURITY"/>
+        </Not>
     </Match>
     <Match>
         <Package name="org.ballerinalang.core.parser"/>
+        <Not>
+            <Bug category="SECURITY"/>
+        </Not>
     </Match>
-	<Match>
+    <Match>
         <OR>
             <Package name="org.ballerinalang.core.nativeimpl*"/>
         </OR>
         <OR>
             <Bug pattern="EI_EXPOSE_REP"/>
         </OR>
+        <Not>
+            <Bug category="SECURITY"/>
+        </Not>
+    </Match>
+    <Match>
+        <Class name="org.ballerinalang.bre.bvm.BLangVM"/>
+        <Method name="handleError"/>
+        <!--<Note>Potential CRLF Injection for logs. This method does not use end user input for logs. If required
+        log4j-2 enc{-} log patterns can be used for additional encoding.</Note>-->
+    </Match>
+    <Match>
+        <Class name="org.ballerinalang.bre.bvm.BLangVMErrors"/>
+        <Method name="createError"/>
+        <!--<Note>Potential CRLF Injection for logs. This method does not use end user input for logs. If required
+        log4j-2 enc{-} log patterns can be used for additional encoding.</Note>-->
+    </Match>
+    <Match>
+        <Class name="org.ballerinalang.model.util.XMLUtils"/>
+        <Method name="toJSON"/>
+        <!--<Note>XML parsing vulnerable to XXE (XMLStreamReader). This method does not use end user XML input.
+        </Note>-->
+    </Match>
+    <Match>
+        <Class name="org.ballerinalang.runtime.ServerConnectorMessageHandler"/>
+        <Method name="handleErrorInboundPath"/>
+        <!--<Note>Potential CRLF Injection for logs. This method does not use end user input for logs. If required
+        log4j-2 enc{-} log patterns can be used for additional encoding.</Note>-->
+    </Match>
+    <Match>
+        <Class name="org.ballerinalang.services.DefaultServerConnectorErrorHandler"/>
+        <Method name="handleError"/>
+        <!--<Note>Potential CRLF Injection for logs. This method does not use end user input for logs. If required
+        log4j-2 enc{-} log patterns can be used for additional encoding.</Note>-->
+    </Match>
+    <Match>
+        <Class name="org.ballerinalang.services.dispatchers.file.FileResourceDispatcher"/>
+        <Method name="findResource"/>
+        <!--<Note>Potential CRLF Injection for logs. This method does not use end user input for logs. If required
+        log4j-2 enc{-} log patterns can be used for additional encoding.</Note>-->
+    </Match>
+    <Match>
+        <Class name="org.ballerinalang.services.dispatchers.http.HTTPErrorHandler"/>
+        <Method name="handleError"/>
+        <!--<Note>Potential CRLF Injection for logs. This method does not use end user input for logs. If required
+        log4j-2 enc{-} log patterns can be used for additional encoding.</Note>-->
+    </Match>
+    <Match>
+        <Class name="org.ballerinalang.services.dispatchers.http.HTTPServicesRegistry"/>
+        <Method name="registerService"/>
+        <!--<Note>Potential CRLF Injection for logs. This method does not use end user input for logs. If required
+        log4j-2 enc{-} log patterns can be used for additional encoding.</Note>-->
+    </Match>
+    <Match>
+        <Class name="org.ballerinalang.services.dispatchers.jms.JMSResourceDispatcher"/>
+        <Method name="findResource"/>
+        <!--<Note>Potential CRLF Injection for logs. This method does not use end user input for logs. If required
+        log4j-2 enc{-} log patterns can be used for additional encoding.</Note>-->
+    </Match>
+    <Match>
+        <Class name="org.ballerinalang.util.repository.BuiltinExtendedPackageRepository"/>
+        <Method name="getPackageNamesFromJar"/>
+        <!--<Note>Potential Path Traversal (file read). This method does not use any end user input.</Note>-->
     </Match>
 </FindBugsFilter>

@@ -117,6 +117,43 @@
                     </suiteXmlFiles>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>xml-maven-plugin</artifactId>
+                <version>1.0.1</version>
+                <configuration>
+                    <transformationSets>
+                        <transformationSet>
+                            <dir>${project.build.directory}</dir>
+                            <outputDir>${project.build.directory}/security</outputDir>
+                            <stylesheet>
+                                https://raw.githubusercontent.com/wso2/security-tools/master/styles-sheets/org.wso2.platformsecurity/stylesheets/temporary-stylesheets/dependency-check-stylesheet.xsl
+                            </stylesheet>
+                            <includes>dependency-check-report.xml</includes>
+                            <fileMappers>
+                                <fileMapper
+                                        implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
+                                    <targetExtension>.html</targetExtension>
+                                </fileMapper>
+                            </fileMappers>
+                        </transformationSet>
+                        <transformationSet>
+                            <dir>${project.build.directory}/findbugs</dir>
+                            <outputDir>${project.build.directory}/security</outputDir>
+                            <stylesheet>
+                                https://raw.githubusercontent.com/wso2/security-tools/master/styles-sheets/org.wso2.platformsecurity/stylesheets/temporary-stylesheets/findbugs-stylesheet.xsl
+                            </stylesheet>
+                            <includes>findbugsXml.xml</includes>
+                            <fileMappers>
+                                <fileMapper
+                                        implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
+                                    <targetExtension>.html</targetExtension>
+                                </fileMapper>
+                            </fileMappers>
+                        </transformationSet>
+                    </transformationSets>
+                </configuration>
+            </plugin>
         </plugins>
 
         <pluginManagement>
@@ -128,10 +165,20 @@
                         <effort>Max</effort>
                         <threshold>Low</threshold>
                         <xmlOutput>true</xmlOutput>
+                        <!-- SET BELOW FLAG TO 'true' TO FAIL BUILD ON ERROR -->
+                        <failOnError>false</failOnError>
+                        <fork>false</fork>
                         <findbugsXmlOutputDirectory>${project.build.directory}/findbugs
                         </findbugsXmlOutputDirectory>
                         <excludeFilterFile>${maven.findbugsplugin.version.exclude}</excludeFilterFile>
                         <!--Exclude generated sources-->
+                        <plugins>
+                            <plugin>
+                                <groupId>com.h3xstream.findsecbugs</groupId>
+                                <artifactId>findsecbugs-plugin</artifactId>
+                                <version>LATEST</version>
+                            </plugin>
+                        </plugins>
                     </configuration>
                     <version>${maven.findbugsplugin.version}</version>
                     <executions>
